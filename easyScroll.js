@@ -144,14 +144,13 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 
 	return this.each(function() {
 		var el = $(this),
-		zoom = window.devicePixelRatio,
-		//https://gist.github.com/kevingessner/5598913
 		scroll_top,
 		scroll_left,
 		scroll_coefV,
 		scroll_coefH,
 		eScrollV,
-		eScrollH;
+		eScrollH,
+		scrollBut_x = 0;
 		
 var tick = new Date();	
 		var methods = {
@@ -163,14 +162,12 @@ var tick = new Date();
 					scrollOffset: 1,
 					scrollMinHeight: 20,
 					scrollStep: 120,
-					scrollButtons: true,
-					scrollHorizontal: true
+					scrollButtons: false,
+					scrollHorizontal: false
 				};
 				_options = $.extend(_defaults, method);
 				
 				function scrollObjInit(axis) {
-				var ta = new Date()
-				
 					var but1 = '', but2 = '', res;
 					if (_options.scrollButtons) {
 						if (axis == axisY) {
@@ -186,15 +183,10 @@ var tick = new Date();
 						el = $('body');
 						obj.attr('id', elemClass + '_scrollBody_' + axis);
 						el.append(obj);
-						res = el.find('> #' + elemClass + '_scrollBody_' + axis);
 					} else {
 						el.after(obj);
-						if (axis == axisY) {
-							res = el.next('.' + elemClass + '_scroll_' + axis);
-						} else {
-							res = el.next('.' + elemClass + '_scroll_' + axis);
-						}
 					}
+					res = obj
 					if (axis == axisY) {
 						el.css({
 							paddingRight: res.outerWidth() + _options.scrollOffset * 2 + 'px'
@@ -204,16 +196,21 @@ var tick = new Date();
 							paddingBottom: res.outerHeight() + _options.scrollOffset * 2 + 'px'
 						})
 					}
-					//console.log('create = ' + eval(new Date - ta))
 					
+					
+					if (_options.scrollButtons) {
+						if (axis == axisY) {
+							scrollBut_x = obj.find('> .scrollButTop').outerHeight() + 1;
+						} else {
+							scrollBut_x = obj.find('> .scrollButLeft').outerWidth() + 1;
+						}
+					}
 					return res;
 				}
-				var create = new Date()
 				eScrollV = scrollObjInit(axisY);
 				if (_options.scrollHorizontal) {
 					eScrollH = scrollObjInit(axisX);
 				}
-				//console.log('create = ' + eval(new Date - create))
 
 				
 				var autoHideClass = '';
@@ -221,42 +218,38 @@ var tick = new Date();
 					autoHideClass = elemClass + '_autoHide';
 				}
 				el.addClass(elemClass + '_container ' + autoHideClass);
-
 				
-				function _init() {
-					var tack = new Date()
+				
+				function _init(action) {
 					function scrollSliderInit(axis) {
 						var textareaResizeOffset = 0;
-						var scrollBut_x = 0;
 						if (axis == axisY) {
 							var elem = eScrollV;
 							var content_x = el[0].scrollHeight;
-							if (_options.scrollButtons) {
-								scrollBut_x = elem.find('> .scrollButTop').outerHeight() + 1;
-							}
 						} else {
 							var elem = eScrollH;
 							var content_x = el[0].scrollWidth;
-							if (_options.scrollButtons) {
-								scrollBut_x = elem.find('> .scrollButLeft').outerWidth() + 1;
-							}
 						}
 						
 						if (el.is('body')) {
 							if (axis == axisY) {
 								var scroll_x = $(window).height();
-								elem.css({
-									top: _options.scrollOffset + 'px',
-									right: _options.scrollOffset + 'px',
-									bottom: _options.scrollOffset + 'px'
-								});
+								if (action == 'resize') {
+									elem.css({
+										top: _options.scrollOffset + 'px',
+										right: _options.scrollOffset + 'px',
+										bottom: _options.scrollOffset + 'px'
+									});
+								}
 							} else {
 								var scroll_x = $(window).width();
-								elem.css({
-									left: _options.scrollOffset + 'px',
-									right: _options.scrollOffset + 'px',
-									bottom: _options.scrollOffset + 'px'
-								});
+								if (action == 'resize') {
+									elem.css({
+										left: _options.scrollOffset + 'px',
+										right: _options.scrollOffset + 'px',
+										bottom: _options.scrollOffset + 'px'
+									});
+								}
 							}
 							var eScrollVOffset = 0;
 						} else {
@@ -287,7 +280,7 @@ var tick = new Date();
 									var translateTop = - elH + elMTop + elBTop + _options.scrollOffset;
 									var translateLeft = elW + elMLeft - elBLeft - elemW - _options.scrollOffset;
 									elem.css({
-										transform: 'translate(' + translateLeft + 'px, ' + translateTop + 'px)',
+										transform: 'translateX(' + translateLeft + 'px) translateY(' + translateTop + 'px) translateZ(0.1px)',
 										height: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
 									});
 								} else {
@@ -300,7 +293,7 @@ var tick = new Date();
 									});
 								}
 							} else {
-								var scroll_x = elW - elBLeft - parseInt(el.css('borderRightWidth'))// - eScrollVOffset;
+								var scroll_x = elW - elBLeft - parseInt(el.css('borderRightWidth'));
 								if (el[0].tagName != 'TEXTAREA') {
 									scroll_x -= eScrollVOffset;
 								}
@@ -308,7 +301,7 @@ var tick = new Date();
 									var translateTop = - elMTop - elBTop - elemH - _options.scrollOffset;
 									var translateLeft = elMLeft + elBLeft + _options.scrollOffset;
 									elem.css({
-										transform: 'translate(' + translateLeft + 'px, ' + translateTop + 'px)',
+										transform: 'translateX(' + translateLeft + 'px) translateY(' + translateTop + 'px) translateZ(0.1px)',
 										width: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
 									});
 								} else {
@@ -324,9 +317,9 @@ var tick = new Date();
 						}
 						
 						if (content_x <= scroll_x + eScrollVOffset) {
-							elem.css({display: 'none'});
+							elem.css({visibility: 'hidden'});
 						} else {
-							elem.css({display: 'block'});
+							elem.css({visibility: 'visible'});
 							
 							var contentScroll;
 							if (el.is('body')) {
@@ -378,8 +371,6 @@ var tick = new Date();
 					if (_options.scrollHorizontal) {
 						scrollSliderInit(axisX);
 					}
-					//console.log('all = ' + eval(new Date() - tick))
-					//console.log('init = ' + eval(new Date() - tack))
 				}
 				_init();
 
@@ -394,20 +385,18 @@ var tick = new Date();
 				});
 				
 				
-				function autoResise() {
+				function autoResize() {
 					var resizeTimer = setTimeout(function() {
 						clearTimeout(resizeTimer);
-						_init();
+						_init('resize');
 					}, 250);
 				}
 				
-				el.resize(function() {
-					autoResise();
-				});
+				el.resize(autoResize);
 				
 				el.attrchange({
 					callback: function() {
-						autoResise();
+						autoResize();
 					}
 				});
 				
