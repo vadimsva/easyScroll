@@ -1,0 +1,60 @@
+/* easyScroll 28.05.14 */
+/* scroll container */
+.easyScroll_container {overflow:hidden!important}
+.easyScroll_container.easyScroll_autoHide > #easyScroll_scrollBody_vertical,
+.easyScroll_container.easyScroll_autoHide > #easyScroll_scrollBody_horizontal,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal {opacity:0;transition:opacity 0.3s ease-in-out}
+.easyScroll_container.easyScroll_autoHide:hover > #easyScroll_scrollBody_vertical,
+.easyScroll_container.easyScroll_autoHide:hover > #easyScroll_scrollBody_horizontal,
+.easyScroll_container.easyScroll_autoHide:hover + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical,
+.easyScroll_container.easyScroll_autoHide:hover + .easyScroll_scroll_horizontal,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical:hover,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal:hover,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical.active,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal.active {opacity:1}
+
+textarea {overflow:auto}
+textarea.easyScroll_container {display:block}
+
+
+/* scroll slider */
+body > #easyScroll_scrollBody_vertical,
+body > #easyScroll_scrollBody_horizontal {position:fixed}
+.easyScroll_scroll_vertical,
+.easyScroll_scroll_horizontal {position:absolute;background:#ddd}
+.easyScroll_scroll_vertical {width:10px}
+.easyScroll_scroll_horizontal {height:10px}
+.easyScroll_scroll_vertical > .easyScroll_slider,
+.easyScroll_scroll_horizontal > .easyScroll_slider {position:relative;background:#555}
+.easyScroll_scroll_vertical > .easyScroll_slider {width:100%}
+.easyScroll_scroll_horizontal > .easyScroll_slider {height:100%}
+.easyScroll_scroll_vertical:hover > .easyScroll_slider,
+.easyScroll_scroll_horizontal:hover > .easyScroll_slider {background:#333}
+.easyScroll_scroll_vertical.active > .easyScroll_slider,
+.easyScroll_scroll_horizontal.active > .easyScroll_slider {background:#000}
+
+
+/* scroll buttons */
+.easyScroll_scroll_vertical .easyScroll_scrollBut,
+.easyScroll_scroll_horizontal .easyScroll_scrollBut {width:10px;height:10px;position:absolute;background:#333;color:#fff;font-size:70%;text-align:center;line-height:10px;cursor:default} 
+.easyScroll_scroll_vertical .easyScroll_scrollBut.scrollButTop {top:0}
+.easyScroll_scroll_vertical .easyScroll_scrollBut.scrollButBottom {bottom:0}
+.easyScroll_scroll_horizontal .easyScroll_scrollBut.scrollButLeft {top:0;left:0}
+.easyScroll_scroll_horizontal .easyScroll_scrollBut.scrollButRight {top:0;right:0}
+
+
+/* themes */
+.easyScroll_scroll_vertical.theme_default,
+.easyScroll_scroll_horizontal.theme_default {background:#ddd}
+.easyScroll_scroll_vertical.theme_default {width:10px}
+.easyScroll_scroll_horizontal.theme_default {height:10px}
+.easyScroll_scroll_vertical.theme_default > .easyScroll_slider,
+.easyScroll_scroll_horizontal.theme_default > .easyScroll_slider {background:#555}
+.easyScroll_scroll_vertical.theme_default:hover > .easyScroll_slider,
+.easyScroll_scroll_horizontal.theme_default:hover > .easyScroll_slider {background:#333}
+.easyScroll_scroll_vertical.active.theme_default > .easyScroll_slider,
+.easyScroll_scroll_horizontal.active.theme_default > .easyScroll_slider {background:#000}
+
+.easyScroll_scroll_vertical.theme_default .easyScroll_scrollBut,
+.easyScroll_scroll_horizontal.theme_default .easyScroll_scrollBut {width:10px;height:10px;background:#333;color:#fff;line-height:10px}
