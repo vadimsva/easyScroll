@@ -93,6 +93,29 @@ body {background:#fafafa}
 				<p>}<span class="text">)</span>;</p>
 			</code></pre></div>
 		</div>
+		
+		<div class="exampleContainer">
+			<div class="exampleLive">
+				<div class="exampleLiveTitle">horizontal scroll</div>
+				<div id="example3" style="padding:20px;overflow:auto;background:#eee">
+				<div style="width:1000px">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.			
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.			
+				</div>
+			</div>
+			</div>
+			<div class="exampleCode"><pre><code>
+				<p><span class="text">$('</span><span class="tag">#elem</span><span class="text">').easyScroll(</span>{</p>
+				<p class="tab"><span class="key">theme</span> : <span class="val">'dafault'</span>,</p>
+				<p class="tab"><span class="key">scrollAutoHide</span> : <span class="val">false</span>,</p>
+				<p class="tab"><span class="key">scrollOffset</span> : <span class="val">0</span>,</p>
+				<p class="tab"><span class="key">scrollMinHeight</span> : <span class="val">20</span>,</p>
+				<p class="tab"><span class="key">scrollStep</span> : <span class="val">120</span>,</p>
+				<p class="tab"><span class="key">scrollButtons</span> : <span class="val">false</span>,</p>
+				<p class="tab"><span class="key">scrollHorizontal</span> : <span class="val">true</span></p>
+				<p>}<span class="text">)</span>;</p>
+			</code></pre></div>
+		</div>
 
 	</div>
 
@@ -107,6 +130,11 @@ $('#example2').easyScroll({
 scrollAutoHide: true,
 scrollOffset: 0,
 scrollButtons: true,
+scrollHorizontal: true
+});
+
+$('#example3').easyScroll({
+scrollOffset: 0,
 scrollHorizontal: true
 });
 
