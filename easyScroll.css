@@ -1,12 +1,18 @@
-/* easyScroll 26.05.14 */
+/* easyScroll 28.05.14 */
 /* scroll container */
 .easyScroll_container {overflow:hidden!important}
-.easyScroll_container.easyScroll_autoHide > .easyScroll_scroll_vertical,
-.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_vertical {opacity:0;transition:opacity 0.3s ease-in-out}
-.easyScroll_container.easyScroll_autoHide:hover > .easyScroll_scroll_vertical,
-.easyScroll_container.easyScroll_autoHide:hover + .easyScroll_scroll_vertical,
-.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_vertical:hover,
-.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_vertical.active {opacity:1}
+.easyScroll_container.easyScroll_autoHide > #easyScroll_scrollBody_vertical,
+.easyScroll_container.easyScroll_autoHide > #easyScroll_scrollBody_horizontal,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal {opacity:0;transition:opacity 0.3s ease-in-out}
+.easyScroll_container.easyScroll_autoHide:hover > #easyScroll_scrollBody_vertical,
+.easyScroll_container.easyScroll_autoHide:hover > #easyScroll_scrollBody_horizontal,
+.easyScroll_container.easyScroll_autoHide:hover + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical,
+.easyScroll_container.easyScroll_autoHide:hover + .easyScroll_scroll_horizontal,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical:hover,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal:hover,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal + .easyScroll_scroll_vertical.active,
+.easyScroll_container.easyScroll_autoHide + .easyScroll_scroll_horizontal.active {opacity:1}
 
 textarea {overflow:auto}
 textarea.easyScroll_container {display:block}
