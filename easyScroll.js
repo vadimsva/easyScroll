@@ -87,6 +87,7 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 			var el = current;
 		} else {
 			var el = focusedElem;
+			_options = $.fn.easyScroll._options;
 		}
 		if (upto == undefined) {
 			upto = 1;
@@ -256,7 +257,12 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 							if (axis == axisY) {
 								var eScrollVOffset = 0;
 							} else {
-								var eScrollVOffset = eScrollV.outerWidth() + _options.scrollOffset;
+								if (eScrollV.css('visibility') == 'visible') {
+									var eScrollV_w = eScrollV.outerWidth();
+								} else {
+									var eScrollV_w = 0;
+								}
+								var eScrollVOffset = eScrollV_w + _options.scrollOffset;
 							}
 							if (el[0].tagName == 'TEXTAREA' && el.css('resize') != undefined && el.css('resize') != 'none') {
 								textareaResizeOffset = 10;
@@ -420,13 +426,13 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 							delta = -1;
 						}
 						if (el.is('body')) {
-							if (eScrollV.is(':visible')) {
+							if (eScrollV.css('visibility') == 'visible') {
 								$(document).scrollTop($(document).scrollTop() +  delta * _options.scrollStep);
 							} else {
 								$(document).scrollLeft($(document).scrollLeft() + delta * _options.scrollStep);
 							}
 						} else {
-							if (eScrollV.is(':visible')) {
+							if (eScrollV.css('visibility') == 'visible') {
 								this.scrollTop += delta * _options.scrollStep;
 							} else {
 								this.scrollLeft += delta * _options.scrollStep;
