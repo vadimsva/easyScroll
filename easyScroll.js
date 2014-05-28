@@ -87,8 +87,8 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 			var el = current;
 		} else {
 			var el = focusedElem;
-			_options = $.fn.easyScroll._options;
 		}
+		_options = $.fn.easyScroll._options;
 		if (upto == undefined) {
 			upto = 1;
 		}
