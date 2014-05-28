@@ -1,4 +1,4 @@
-/* easyScroll 26.05.14 */
+/* easyScroll 28.05.14 */
 $(function() {
 
 (function($) {
@@ -31,6 +31,7 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 	
 	$('html').keydown(function(event) {
 		if (focusedElem && !focusedElem.is(':focus') && !$(event.target).is(':focus') && $(event.target)[0].tagName != 'TEXTAREA' && $(event.target)[0].tagName != 'SELECT' && $(event.target)[0].tagName != 'INPUT') {
+			_options = $.fn.easyScroll._options;
 			switch (event.which) {
 				case 17://ctrl
 					ctrlActive = true;
@@ -151,8 +152,7 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 		eScrollV,
 		eScrollH,
 		scrollBut_x = 0;
-		
-var tick = new Date();	
+
 		var methods = {
 			
 			init : function() {
@@ -165,7 +165,8 @@ var tick = new Date();
 					scrollButtons: false,
 					scrollHorizontal: false
 				};
-				_options = $.extend(_defaults, method);
+				var _options = $.extend(_defaults, method);
+				$.fn.easyScroll._options = _options;
 				
 				function scrollObjInit(axis) {
 					var but1 = '', but2 = '', res;
@@ -211,7 +212,6 @@ var tick = new Date();
 				if (_options.scrollHorizontal) {
 					eScrollH = scrollObjInit(axisX);
 				}
-
 				
 				var autoHideClass = '';
 				if (_options.scrollAutoHide) {
@@ -234,7 +234,7 @@ var tick = new Date();
 						if (el.is('body')) {
 							if (axis == axisY) {
 								var scroll_x = $(window).height();
-								if (action == 'resize') {
+								if (action != 'resize' && action != 'scroll') {
 									elem.css({
 										top: _options.scrollOffset + 'px',
 										right: _options.scrollOffset + 'px',
@@ -243,7 +243,7 @@ var tick = new Date();
 								}
 							} else {
 								var scroll_x = $(window).width();
-								if (action == 'resize') {
+								if (action != 'resize' && action != 'scroll') {
 									elem.css({
 										left: _options.scrollOffset + 'px',
 										right: _options.scrollOffset + 'px',
@@ -262,109 +262,118 @@ var tick = new Date();
 								textareaResizeOffset = 10;
 								eScrollVOffset = 0;
 							}
-							var elH = el.outerHeight(),
-							elW = el.outerWidth(),
-							elemH = elem.outerHeight(),
-							elemW = elem.outerWidth(),
-							elMTop = parseInt(el.css('marginTop')),
-							elMLeft = parseInt(el.css('marginLeft')),
-							elBTop = parseInt(el.css('borderTopWidth')),
-							elBLeft = parseInt(el.css('borderLeftWidth'));
+							if (elem != undefined) {
+								var elH = el.outerHeight(),
+								elW = el.outerWidth(),
+								elemH = elem.outerHeight(),
+								elemW = elem.outerWidth(),
+								elMTop = parseInt(el.css('marginTop')),
+								elMBottom = parseInt(el.css('marginBottom')),
+								elMLeft = parseInt(el.css('marginLeft')),
+								elBTop = parseInt(el.css('borderTopWidth')),
+								elBLeft = parseInt(el.css('borderLeftWidth'));
+							}
 							if (!supportTransform) {
 								var elTop = parseInt(Number(el.position().top).toFixed(0)),
 								elLeft = parseInt(Number(el.position().left).toFixed(0));
 							}
 							if (axis == axisY) {
 								var scroll_x = elH - elBTop - parseInt(el.css('borderBottomWidth'));
-								if (supportTransform) {
-									var translateTop = - elH + elMTop + elBTop + _options.scrollOffset;
-									var translateLeft = elW + elMLeft - elBLeft - elemW - _options.scrollOffset;
-									elem.css({
-										transform: 'translateX(' + translateLeft + 'px) translateY(' + translateTop + 'px) translateZ(0.1px)',
-										height: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
-									});
-								} else {
-									var posTop = elTop + elMTop + elBTop + _options.scrollOffset;
-									var posLeft = elLeft + elW + elMLeft - elBLeft - elemW - _options.scrollOffset;
-									elem.css({
-										top: posTop + 'px',
-										left: posLeft + 'px',
-										height: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
-									});
+								if (action != 'scroll') {
+									if (supportTransform) {
+										var translateTop = - elH - elMBottom + elBTop + _options.scrollOffset;
+										var translateLeft = elW + elMLeft - elBLeft - elemW - _options.scrollOffset;
+										elem.css({
+											transform: 'translateX(' + translateLeft + 'px) translateY(' + translateTop + 'px) translateZ(0.1px)',
+											height: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
+										});
+									} else {
+										var posTop = elTop + elMTop + elBTop + _options.scrollOffset;
+										var posLeft = elLeft + elW + elMLeft - elBLeft - elemW - _options.scrollOffset;
+										elem.css({
+											top: posTop + 'px',
+											left: posLeft + 'px',
+											height: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
+										});
+									}
 								}
 							} else {
 								var scroll_x = elW - elBLeft - parseInt(el.css('borderRightWidth'));
 								if (el[0].tagName != 'TEXTAREA') {
 									scroll_x -= eScrollVOffset;
 								}
-								if (supportTransform) {
-									var translateTop = - elMTop - elBTop - elemH - _options.scrollOffset;
-									var translateLeft = elMLeft + elBLeft + _options.scrollOffset;
-									elem.css({
-										transform: 'translateX(' + translateLeft + 'px) translateY(' + translateTop + 'px) translateZ(0.1px)',
-										width: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
-									});
-								} else {
-									var posTop = elTop + elMTop - elBTop + elH - elemH - _options.scrollOffset;
-									var posLeft = elLeft + elMLeft + elBLeft  + _options.scrollOffset;
-									elem.css({
-										top: posTop + 'px',
-										left: posLeft + 'px',
-										width: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
-									});
+								if (action != 'scroll') {
+									if (supportTransform) {
+										var translateTop = - elMBottom - elBTop - elemH - _options.scrollOffset;
+										var translateLeft = elMLeft + elBLeft + _options.scrollOffset;
+										elem.css({
+											transform: 'translateX(' + translateLeft + 'px) translateY(' + translateTop + 'px) translateZ(0.1px)',
+											width: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
+										});
+									} else {
+										var posTop = elTop + elMTop - elBTop + elH - elemH - _options.scrollOffset;
+										var posLeft = elLeft + elMLeft + elBLeft  + _options.scrollOffset;
+										elem.css({
+											top: posTop + 'px',
+											left: posLeft + 'px',
+											width: scroll_x - textareaResizeOffset - _options.scrollOffset * 2 + 'px'
+										});
+									}
 								}
 							}
 						}
 						
-						if (content_x <= scroll_x + eScrollVOffset) {
-							elem.css({visibility: 'hidden'});
-						} else {
-							elem.css({visibility: 'visible'});
-							
-							var contentScroll;
-							if (el.is('body')) {
-								if (axis == axisY) {
-									contentScroll = $(document).scrollTop();
-								} else {
-									contentScroll = $(document).scrollLeft();
-								}
+						if (elem != undefined) {
+							if (content_x <= scroll_x + eScrollVOffset) {
+								elem.css({visibility: 'hidden'});
 							} else {
-								if (axis == axisY) {
-									contentScroll = el.scrollTop();
+								elem.css({visibility: 'visible'});
+								
+								var contentScroll;
+								if (el.is('body')) {
+									if (axis == axisY) {
+										contentScroll = $(document).scrollTop();
+									} else {
+										contentScroll = $(document).scrollLeft();
+									}
 								} else {
-									contentScroll = el.scrollLeft();
+									if (axis == axisY) {
+										contentScroll = el.scrollTop();
+									} else {
+										contentScroll = el.scrollLeft();
+									}
 								}
-							}
-							var slider_x = scroll_x * (scroll_x / content_x) - textareaResizeOffset - scrollBut_x * 2;
-							
-							if (slider_x < _options.scrollMinHeight) {
-								if (scroll_x - textareaResizeOffset < _options.scrollMinHeight) {
-									slider_x = scroll_x * 0.75;
-								} else {
-									slider_x = _options.scrollMinHeight;
+								var slider_x = scroll_x * (scroll_x / content_x) - textareaResizeOffset - scrollBut_x * 2;
+								
+								if (slider_x < _options.scrollMinHeight) {
+									if (scroll_x - textareaResizeOffset < _options.scrollMinHeight) {
+										slider_x = scroll_x * 0.75;
+									} else {
+										slider_x = _options.scrollMinHeight;
+									}
 								}
-							}
 
-							var contentScrollCoeff = contentScroll / (content_x - scroll_x - eScrollVOffset);
-							var scroll_axis = Number((scroll_x - slider_x - textareaResizeOffset - scrollBut_x * 2) * contentScrollCoeff + scrollBut_x).toFixed(0);
-							var scroll_coefx = scroll_x / (slider_x + scrollBut_x * 2);
-							var elemSlider = elem.find('> .' + elemClass + '_slider');
-							if (axis == axisY) {
-								scroll_top = scroll_axis;
-								scroll_coefV = scroll_coefx;
-								elemSlider.css({
-									height: parseInt(Number(slider_x).toFixed(0)) - _options.scrollOffset * 2 + 'px',
-									top: scroll_top + 'px'
-								});
-							} else {
-								scroll_left = scroll_axis;
-								scroll_coefH = scroll_coefx;
-								elemSlider.css({
-									width: parseInt(Number(slider_x).toFixed(0)) - _options.scrollOffset * 2 + 'px',
-									left: scroll_left + 'px'
-								});
+								var contentScrollCoeff = contentScroll / (content_x - scroll_x - eScrollVOffset);
+								var scroll_axis = Number((scroll_x - slider_x - textareaResizeOffset - scrollBut_x * 2) * contentScrollCoeff + scrollBut_x).toFixed(0);
+								var scroll_coefx = scroll_x / (slider_x + scrollBut_x * 2);
+								var elemSlider = elem.find('> .' + elemClass + '_slider');
+								if (axis == axisY) {
+									scroll_top = scroll_axis;
+									scroll_coefV = scroll_coefx;
+									elemSlider.css({
+										height: parseInt(Number(slider_x).toFixed(0)) - _options.scrollOffset * 2 + 'px',
+										top: scroll_top + 'px'
+									});
+								} else {
+									scroll_left = scroll_axis;
+									scroll_coefH = scroll_coefx;
+									elemSlider.css({
+										width: parseInt(Number(slider_x).toFixed(0)) - _options.scrollOffset * 2 + 'px',
+										left: scroll_left + 'px'
+									});
+								}
+								
 							}
-							
 						}
 					}
 					scrollSliderInit(axisY);
@@ -381,7 +390,7 @@ var tick = new Date();
 					var elEvt = el;
 				}
 				elEvt.scroll(function() {
-					_init();
+					_init('scroll');
 				});
 				
 				
@@ -389,7 +398,7 @@ var tick = new Date();
 					var resizeTimer = setTimeout(function() {
 						clearTimeout(resizeTimer);
 						_init('resize');
-					}, 250);
+					}, 100);
 				}
 				
 				el.resize(autoResize);
@@ -517,7 +526,7 @@ var tick = new Date();
 						} else {
 							var elem = eScrollH;
 						}
-						if (elem.find('> .' + elemClass + '_slider').data('down')) {
+						if (elem != undefined && elem.find('> .' + elemClass + '_slider').data('down')) {
 							if (axis == axisY) {
 								var curSTop = (event.clientY - elem.find('> .' + elemClass + '_slider').data('y')) * scroll_coefV;
 							} else {
@@ -546,12 +555,12 @@ var tick = new Date();
 
 
 				$('html').mouseup(function() {
-					if (eScrollV.find('> .' + elemClass + '_slider').data('down')) {
+					if (eScrollV != undefined && eScrollV.find('> .' + elemClass + '_slider').data('down')) {
 						eScrollV.find('> .' + elemClass + '_slider').data('down', false);
 						eScrollV.removeClass('active');
 					}
 					if (_options.scrollHorizontal) {
-						if (eScrollH.find('> .' + elemClass + '_slider').data('down')) {
+						if (eScrollH != undefined && eScrollH.find('> .' + elemClass + '_slider').data('down')) {
 							eScrollH.find('> .' + elemClass + '_slider').data('down', false);
 							eScrollH.removeClass('active');
 						}
