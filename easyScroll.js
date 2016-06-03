@@ -1,4 +1,8 @@
-/* easyScroll 28.05.14 */
+/*
+easyScroll - 1.01 [03.06.16]
+Author: vadimsva
+Github: https://github.com/vadimsva/easyScroll
+*/
 $(function() {
 
 (function($) {
@@ -158,7 +162,7 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 			
 			init : function() {
 				var _defaults = {
-					theme: 'dafault',
+					theme: 'default',
 					scrollAutoHide: false,
 					scrollOffset: 1,
 					scrollMinHeight: 20,
@@ -429,13 +433,17 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 							if (eScrollV.css('visibility') == 'visible') {
 								$(document).scrollTop($(document).scrollTop() +  delta * _options.scrollStep);
 							} else {
-								$(document).scrollLeft($(document).scrollLeft() + delta * _options.scrollStep);
+								if (_options.scrollHorizontal) {
+									$(document).scrollLeft($(document).scrollLeft() + delta * _options.scrollStep);
+								}
 							}
 						} else {
 							if (eScrollV.css('visibility') == 'visible') {
 								this.scrollTop += delta * _options.scrollStep;
 							} else {
-								this.scrollLeft += delta * _options.scrollStep;
+								if (_options.scrollHorizontal) {
+									this.scrollLeft += delta * _options.scrollStep;
+								}
 							}
 						}
 						event.preventDefault();
@@ -459,13 +467,17 @@ if( !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 								if (axis == axisY) {
 									$(document).scrollTop($(document).scrollTop() + ( delta < 0 ? 1 : -1 ) * _options.scrollStep);
 								} else {
-									$(document).scrollLeft($(document).scrollLeft() + ( delta < 0 ? 1 : -1 ) * _options.scrollStep);
+									if (_options.scrollHorizontal) {
+										$(document).scrollLeft($(document).scrollLeft() + ( delta < 0 ? 1 : -1 ) * _options.scrollStep);
+									}
 								}
 							} else {
 								if (axis == axisY) {
 									el[0].scrollTop += ( delta < 0 ? 1 : -1 ) * _options.scrollStep;
 								} else {
-									el[0].scrollLeft += ( delta < 0 ? 1 : -1 ) * _options.scrollStep;
+									if (_options.scrollHorizontal) {
+										el[0].scrollLeft += ( delta < 0 ? 1 : -1 ) * _options.scrollStep;
+									}
 								}
 							}
 							event.preventDefault();
